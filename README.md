@@ -1,5 +1,5 @@
 # jquery-columns
-jQuery plugin to reshuffle DOM elements to appear in columns
+jQuery plugin to reshuffle DOM elements to appear in downward-flowing columns
 
 Include the script on your page:
   
