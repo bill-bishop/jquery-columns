@@ -2,10 +2,6 @@
     'use strict';
 
     function toColumns(arr, cols) {
-        if (cols < 1) {
-            throw new Error('Invalid number of columns');
-        }
-
         var result = [];
         var rows = Math.ceil(arr.length / cols);
 
@@ -17,18 +13,50 @@
         return result;
     }
 
-    $.fn.columns = function (cols, ignoreOriginalOrder) {
-        var style = {
-            width: 100 / cols + '%',
-            display: 'inline-block'
-        };
+    /*
+
+    jQuery.fn.columns (cols, options)
+
+        cols        - the number of columns to organize the elements into
+        options     - (optional) object. see below configurable properties:
+
+            reorder             - if explicitly set to false,
+                                    will not refer back to the original element order on subsequent .columns() calls
+                                    useful for deferring to angular etc. for maintaining the original element order
+
+            placeholderClass    - defaults to 'placeholder'
+                                    the class name of the element to use for row placeholders
+
+            style               - defaults to { width: 100 / cols + '%', display: 'inline-block' }
+                                    fn called with # cols,
+                                    return value object is passed to jQuery.fn.css on each element
+     */
+    $.fn.columns = function (cols, opts) {
+        if (!cols || cols < 1) {
+            throw new Error('Invalid number of columns');
+        }
+        opts = opts || {};
+
+        var reorder = opts.reorder !== false,
+            placeholderClass = opts.placeholderClass || 'placeholder',
+            style;
+
+        if(typeof opts.style === 'function') {
+            style = opts.style(cols);
+        }
+        else {
+            style = {
+                width: 100 / cols + '%',
+                display: 'inline-block'
+            };
+        }
 
         return this.each(function (i, self) {
             var config = self.$columnConfig = self.$columnConfig || {};
 
             if (!config.placeholderElement) {
                 config.placeholderElement = $(self).children().filter(function (i, child) {
-                        return $(child).hasClass('placeholder');
+                        return $(child).hasClass(placeholderClass);
                     })[0] || $('<div />');
                 $(config.placeholderElement).remove();
             }
@@ -45,7 +73,7 @@
 
             config.columnPlaceholders = [];
 
-            var elements = ignoreOriginalOrder ? $(self).children() : config.childOrder;
+            var elements = reorder ? config.childOrder : $(self).children();
 
             toColumns(elements, cols).forEach(function (el) {
                 if (!el) {

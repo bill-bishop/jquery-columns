@@ -29,10 +29,11 @@
     </ul>
 </body>
     <script>
-        var ul = $('ul').columns(1); // doing this just to remove the placeholder elements
+        var ul = $('ul').columns(1); // removes the placeholder elements
 
         function setColumns() {
             var cols = parseInt($('input').val());
+
             ul.columns(cols);
         }
     </script>
