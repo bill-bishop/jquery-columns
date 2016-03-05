@@ -13,7 +13,7 @@ And tell an element to sort its children into columns:
 # Placeholders
   
 
-Placeholder elements are needed to give the appearance of downwards-flowing columns - if you don't specify one, an empty `div` will be used.
+Placeholder elements are sometimes needed to give the appearance of downwards-flowing columns - if you don't specify one, an empty `div` will be used.
 
 If you want to specify the element to be used for empty row slots, include an element with a `placeholder` class (or specify the placeholderClass you want to use in the options): 
 
