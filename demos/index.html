@@ -32,7 +32,8 @@
         var ul = $('ul').columns(1); // doing this just to remove the placeholder elements
 
         function setColumns() {
-            ul.columns(parseInt($('input').val()), true);
+            var cols = parseInt($('input').val());
+            ul.columns(cols);
         }
     </script>
 </html>
